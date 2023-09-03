@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator BMI</title>
+  <link rel="stylesheet" href="./css/style.css">
+
+  <meta name="description" content="Kalkulator BMI sederhana untuk menghitung indeks massa tubuh Anda. Cari tahu berat badan ideal Anda untuk menjaga kesehatan tubuh.">
+  <meta name="keywords" content="kalkulator bmi, indeks massa tubuh, berat badan ideal, kesehatan tubuh">
+  <meta name="author" content="Hizkia Reppi">
+  <meta name="robots" content="index, follow">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Global styles */
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --primary-color: #1e9c9c;
+  --secondary-color: #c3c2c2;
+  --error-color: #ff0000;
+  --base-font-size: medium;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: var(--base-font-size);
+  font-weight: normal;
+  font-family: var(--font-family);
+  scroll-behavior: smooth;
+}
+
+/* Common styles */
+.title {
+  font-size: 25px;
+  margin: 10px 0;
+}
+
+.sub-title {
+  font-size: 20px;
+}
+
+.paragraph {
+  text-align: justify;
+  line-height: 30px;
+  color: #1f1e1e;
+}
+
+.paragraph sup {
+  font-size: 13px;
+}
+
+.mb-1 {
+  margin-bottom: 30px;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #136767;
+}
+
+.btn-reset {
+  background-color: white;
+  border: 1px solid gray;
+  color: black;
+}
+
+.btn-reset:hover {
+  background-color: #c3c2c2;
+}
+
+.d-hidden {
+  display: none;
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Home styles */
+.container {
+  margin: 30px 5%;
+}
+
+.form {
+  background-color: #dbdbdbcd;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.form .form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form .form-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: black;
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid var(--secondary-color);
+  appearance: none;
+}
+
+.form .input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.form .input-group > .form-input {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.form .input-group-desc,
+.form .input-group-icon {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: white;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.form .input-group-desc {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  border-radius: 0 5px 5px 0;
+}
+
+.form .input-group-icon {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  border-radius: 5px 0 0 5px;
+}
+
+.features {
+  margin-left: 20px;
+  line-height: 30px;
+  color: #1f1e1e;
+}
+
+/* Result styles */
+.sub-container {
+  background-color: #dbdbdbcd;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result-title {
+  font-size: 18px;
+}
+
+.result-bmi {
+  font-size: 40px;
+}
+
+.result-desc {
+  margin: 10px 0 20px;
+  font-size: 15px;
+}
+
+.button-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.button-cta button {
+  font-size: 12px;
+}
+
+.list-risk {
+  list-style: none;
+  text-align: center;
+}
+
+.download-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.img {
+  width: 300px;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+  </style>
+</head>
+<body>
+  <main>
+    <section id="home" class="container">
+      <header>
+        <h1 class="title">Kalkulator BMI</h1>
+        <p class="paragraph">
+          Berat badan ideal adalah impian semua orang. Tidak hanya memiliki bentuk tubuh yang menunjang penampilan, berat badan ideal juga menandakan kondisi tubuh yang sehat. Bagaimana denganmu? <br> Yuk, hitung sekarang di kalkulator BMI.
+        </p>
+      </header>
+
+      <div>
+        <h2>Hitung BMI Anda</h2>
+        <p>Isi form berikut untuk menghitung Indeks Massa Tubuh (BMI) Anda.</p>
+      </div>
+      <div>
+        <form id="form" class="form" aria-label="Kalkulator BMI">
+          <div>
+            <label class="form-label" for="gender">Jenis Kelamin</label>
+            <div class="input-group">
+              <input type="radio" name="gender" id="male" value="Pria" class="form-input-check" checked>
+              <label for="male">Pria</label>
+              <input type="radio" name="gender" id="female" value="Wanita" class="form-input-check">
+              <label for="female">Wanita</label>
+            </div>
+            <span id="genderErrorMessage" class="error-message"></span>
+          </div>
+          <div>
+            <label class="form-label" for="weight">Berat Badan</label>
+            <div class="input-group">
+              <span class="input-group-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                  <path
+                    d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z" />
+                </svg>
+              </span>
+              <input type="number" name="weight" id="weight" class="form-input" min="1" aria-describedby="weightDesc">
+              <span class="input-group-desc" id="weightDesc">Kg</span>
+            </div>
+            <span id="weightErrorMessage" class="error-message"></span>
+          </div>
+          <div>
+            <label class="form-label" for="age">Umur</label>
+            <div class="input-group">
+              <span class="input-group-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                  <path
+                    d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z" />
+                </svg>
+              </span>
+              <input type="number" name="age" id="age" class="form-input" min="1" aria-describedby="ageDesc">
+              <span class="input-group-desc" id="ageDesc">Tahun</span>
+            </div>
+            <span id="ageErrorMessage" class="error-message"></span>
+          </div>
+          <div>
+            <label class="form-label" for="height">Tinggi Badan</label>
+            <div class="input-group">
+              <span class="input-group-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                  <path
+                    d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z" />
+                </svg>
+              </span>
+              <input type="number" name="height" id="height" class="form-input" min="1" aria-describedby="heightDesc">
+              <span class="input-group-desc" id="heightDesc">Cm</span>
+            </div>
+            <span id="heightErrorMessage" class="error-message"></span>
+          </div>
+          <div>
+            <button type="button" class="btn" onclick="checkBMI()">Hitung BMI</button>
+            <button type="reset" class="btn btn-reset">Reset</button>
+          </div>
+        </form>
+      </div>
+      <div class="mb-1">
+        <h3 class="sub-title">Keunggulan fitur</h3>
+        <ol class="features">
+          <li>Menghitung berat badan</li>
+          <li>Menentukan kategori berat badan ideal atau tidak</li>
+          <li>Mempersiapkan program penurunan berat badan</li>
+        </ol>
+      </div>
+      <div>
+        <p class="paragraph mb-1">
+          Kalkulator ini hanya boleh digunakan oleh orang dewasa (wanita hamil atau menyusui tidak boleh mengandalkan pembacaan BMI ini) dan tidak ada tindakan yang harus diambil berdasarkan nilainya selain berkonsultasi dengan orang yang memenuhi syarat seperti dokter.
+        </p>
+        <p class="paragraph">
+          Kalkulator akan memberi anda gambaran tentang perbandingan berat badan anda dengan nilai umum. Indek Massa Tubuh (atau BMI) dihitung sebagai berat badan anda (dalam kilogram) dibagi dengan kuadrat tinggi badan anda (dalam meter) atau BMI = Kg/M<sup>2</sup>.
+        </p>
+      </div>
+    </section>
+
+    <section id="result" class="container d-hidden">
+      <h2 class="title">Hasil</h2>
+      <div class="sub-container mb-1">
+        <h3 id="result-title" class="result-title"></h3>
+        <div id="result-bmi" class="result-bmi"></div>
+        <p id="result-desc" class="result-desc"></p>
+        <button class="btn">Download Hasil BMI</button>
+      </div>
+      <div class="mb-1 paragraph">
+        <p id="result-text"></p>
+        <p id="suggestion-text"></p>
+        <p id="advice-text"></p>
+        <div class="button-cta">
+          <button class="btn">Konsultasi Ahli Gizi Via Aplikasi</button>
+          <button class="btn">Registrasi Online Ahli Gizi</button>
+        </div>
+        <p>
+          BMI tidak sepenuhnya mewakili diagnosis menyeluruh dari kesehatan tubuh dan resiko penyakit seseorang, Anda perlu konsultasi lebih lanjut mengenai resiko dan kekhawatiran Anda terkait dengan berat badan Anda.
+        </p>
+      </div>
+      <div class="sub-container paragraph">
+        <h6 id="risk-title"></h6>
+        <ul id="list-risk" class="list-risk"></ul>
+        <div class="button-cta">
+          <button class="btn">Konsultasi Dokter Via Aplikasi</button>
+          <button class="btn">Registrasi Online Sekarang</button>
+        </div>
+      </div>
+      <div class="download-app">
+        <h6>Download Aplikasi</h6>
+        <div class="button-cta">
+          <img src="./img/google-play.png" alt="Google Play" class="img" aria-label="Download di Google Play">
+          <img src="./img/apple-store.jpg" alt="Apple Store" class="img" aria-label="Download di Apple Store">
+        </div>
+      </div>
+      <div>
+        <button class="btn" onclick="regenerateBMI()">Hitung Lagi</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Objek untuk menyimpan kategori BMI dan pesan terkaitnya
+const BMI_CATEGORIES = {
+  UNDERWEIGHT: 'Kekurangan berat badan',
+  NORMAL: 'Normal (ideal)',
+  OVERWEIGHT: 'Kelebihan berat badan',
+  OBESITY: 'Kegemukan (Obesitas)',
+};
+
+// Fungsi untuk menghitung BMI berdasarkan berat badan dan tinggi badan
+const calculateBMI = (weight, height) => {
+  let bmi = weight / ((height / 100) ** 2);
+
+  return bmi.toFixed(1);
+};
+
+// Fungsi untuk memvalidasi input berat badan, tinggi badan, usia, dan jenis kelamin
+const validateInput = (weight, height, age, gender) => {
+  // Mengambil elemen error message untuk masing-masing input
+  const genderErrorMessage = document.getElementById('genderErrorMessage');
+  const weightErrorMessage = document.getElementById('weightErrorMessage');
+  const ageErrorMessage = document.getElementById('ageErrorMessage');
+  const heightErrorMessage = document.getElementById('heightErrorMessage');
+
+  // Mengatur pesan error menjadi kosong untuk mereset pesan error sebelumnya
+  const errorMessages = document.querySelectorAll('.error-message');
+  errorMessages.forEach((element) => (element.innerText = ''));
+
+  let isValid = true;
+
+  // Validasi jenis kelamin
+  if (gender === '' || !['Pria', 'Wanita'].includes(gender)) {
+    genderErrorMessage.innerText = 'Pilih jenis kelamin terlebih dahulu';
+    isValid = false;
+  }
+
+  // Validasi berat badan
+  if (isNaN(weight) || weight <= 0) {
+    weightErrorMessage.innerText = 'Berat badan harus berupa angka lebih dari 0';
+    isValid = false;
+  }
+
+  // Validasi tinggi badan
+  if (isNaN(height) || height <= 0) {
+    heightErrorMessage.innerText = 'Tinggi badan harus berupa angka lebih dari 0';
+    isValid = false;
+  }
+
+  // Validasi usia
+  if (isNaN(age) || age <= 0) {
+    ageErrorMessage.innerText = 'Umur harus berupa angka lebih dari 0';
+    isValid = false;
+  }
+
+  return isValid;
+};
+
+// Fungsi untuk mengecek status BMI berdasarkan nilai BMI dan jenis kelamin
+const checkStatus = (bmi, gender) => {
+  let status = '';
+
+  // Menentukan status BMI berdasarkan kategori dan nilai BMI
+  switch (gender) {
+    case 'Pria':
+      if (bmi < 18.5) {
+        status = BMI_CATEGORIES.UNDERWEIGHT;
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        status = BMI_CATEGORIES.NORMAL;
+      } else if (bmi >= 25.0 && bmi <= 29.9) {
+        status = BMI_CATEGORIES.OVERWEIGHT;
+      } else if (bmi >= 30.0) {
+        status = BMI_CATEGORIES.OBESITY;
+      }
+      break;
+    case 'Wanita':
+      if (bmi < 17) {
+        status = BMI_CATEGORIES.UNDERWEIGHT;
+      } else if (bmi >= 17 && bmi <= 23.9) {
+        status = BMI_CATEGORIES.NORMAL;
+      } else if (bmi >= 23.0 && bmi <= 27.0) {
+        status = BMI_CATEGORIES.OVERWEIGHT;
+      } else if (bmi > 27.0) {
+        status = BMI_CATEGORIES.OBESITY;
+      }
+      break;
+  }
+
+  return status;
+};
+
+// Fungsi untuk mendapatkan deskripsi teks berdasarkan status BMI
+const getDescText = (status) => {
+  if (status === BMI_CATEGORIES.UNDERWEIGHT) {
+    return 'Anda memiliki berat badan kurang dari normal.';
+  } else if (status === BMI_CATEGORIES.NORMAL) {
+    return 'Anda memiliki berat badan dalam kisaran normal.';
+  } else if (status === BMI_CATEGORIES.OVERWEIGHT) {
+    return 'Anda memiliki berat badan berlebih.';
+  } else if (status === BMI_CATEGORIES.OBESITY) {
+    return 'Anda memiliki berat badan yang sangat berlebih.';
+  }
+};
+
+// Fungsi untuk mendapatkan teks saran berdasarkan status BMI
+const getSuggestionText = (status) => {
+  if (status === BMI_CATEGORIES.UNDERWEIGHT) {
+    return 'Jika BMI Anda berada dalam kategori ini maka Anda dianjurkan untuk menambah berat badan hingga batas normal.';
+  } else if (status === BMI_CATEGORIES.NORMAL) {
+    return 'Jika BMI Anda berada dalam kategori ini maka Anda memiliki berat badan yang sehat.';
+  } else if (status === BMI_CATEGORIES.OVERWEIGHT) {
+    return 'Jika BMI Anda berada dalam kategori ini maka Anda dianjurkan untuk menurunkan berat badan hingga batas normal.';
+  } else if (status === BMI_CATEGORIES.OBESITY) {
+    return 'Jika BMI Anda berada dalam kategori ini maka Anda dianjurkan untuk mengurangi berat badan hingga batas normal.';
+  }
+};
+
+// Fungsi untuk mendapatkan teks saran gizi berdasarkan status BMI
+const getAdviceText = (status) => {
+  if (status === BMI_CATEGORIES.UNDERWEIGHT) {
+    return 'Perbanyak asupan makanan bergizi dan konsultasikan dengan ahli gizi untuk peningkatan berat badan.';
+  } else if ( status === BMI_CATEGORIES.NORMAL) {
+    return 'Lanjutkan gaya hidup sehat dengan pola makan seimbang dan olahraga teratur.';
+  } else if (status === BMI_CATEGORIES.OVERWEIGHT) {
+    return 'Lakukan penyesuaian pola makan dan rutin berolahraga untuk menurunkan berat badan.';
+  } else if (status === BMI_CATEGORIES.OBESITY) {
+    return 'Segera konsultasikan dengan ahli gizi untuk penurunan berat badan yang sehat.';
+  }
+};
+
+// Fungsi untuk mendapatkan daftar penyakit berdasarkan status BMI
+const getDiseases = (status) => {
+  if (status === BMI_CATEGORIES.UNDERWEIGHT) {
+    return ['Kekurangan gizi', 'Gangguan pertumbuhan', 'Sistem kekebalan tubuh lemah', 'Gangguan kesuburan'];
+  } else if (status === BMI_CATEGORIES.NORMAL) {
+    return ['Tidak ada'];
+  } else if (status === BMI_CATEGORIES.OVERWEIGHT) {
+    return ['Diabetes Tipe 2', 'Serangan Jantung', 'Hipertensi', 'Gastroesophageal Reflux Disease', 'Osteoarthritis', 'Kanker', 'Kolesterol Tinggi'];
+  } else if (status === BMI_CATEGORIES.OBESITY) {
+    return ['Penyakit Jantung', 'Stroke', 'Kanker', 'Masalah Pencernaan', 'Sleep Apnea', 'Osteoartritis']
+  }
+};
+
+// Fungsi untuk menampilkan hasil BMI, status, saran, dan risiko penyakit
+const generateDisplay = (bmi, status) => {
+  const resultTitle = document.getElementById('result-title');
+  resultTitle.innerText = status;
+  const resultBmi = document.getElementById('result-bmi');
+  resultBmi.innerText = bmi;
+  const resultDesc = document.getElementById('result-desc');
+  resultDesc.innerText = getDescText(status);
+
+  const resultText = document.getElementById('result-text');
+  resultText.innerText = `Hasil BMI: ${bmi}`;
+
+  const suggestionText = document.getElementById('suggestion-text');
+  suggestionText.innerText = getSuggestionText(status);
+
+  const adviceText = document.getElementById('advice-text');
+  adviceText.innerText = getAdviceText(status);
+
+  const riskTitle = document.getElementById('risk-title')
+  riskTitle.innerText = `Beberapa resiko penyakit yang berasal dari tubuh ${status}`;
+
+  const riskList = document.getElementById('list-risk');
+  riskList.innerHTML = '';
+
+  const diseases = getDiseases(status);
+  diseases.forEach((disease) => {
+    const listItem = document.createElement('li');
+    listItem.innerText = disease;
+    riskList.appendChild(listItem);
+  });
+
+  // Menyembunyikan form dan menampilkan hasil
+  document.getElementById('form').reset();
+  document.getElementById('result').classList.remove('d-hidden');
+  document.getElementById('home').classList.add('d-hidden');
+};
+
+// Fungsi untuk mengecek BMI dan menampilkan hasil
+const checkBMI = () => {
+  const weight = +document.getElementById('weight').value;
+  const height = +document.getElementById('height').value;
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const age = +document.getElementById('age').value;
+
+  if (!validateInput(weight, height, age, gender)) {
+    return;
+  }
+
+  const bmi = calculateBMI(weight, height);
+  const status = checkStatus(bmi, gender);
+  generateDisplay(bmi, status);
+
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+};
+
+// Fungsi untuk mengembalikan tampilan form
+const regenerateBMI = () => {
+  document.getElementById('home').classList.remove('d-hidden');
+  document.getElementById('result').classList.add('d-hidden');
+  document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
+};
+
+/**
+ * Sumber:
+ * Resiko Penyakit Kekurangan Berat Badan: https://www.alodokter.com/faktor-penyebab-badan-kurus-dan-tips-sehat-untuk-mengatasinya/ Diakses pada 18 July 2023
+ * Resiko Penyakit Kelebihan Berat Badan: https://health.detik.com/diet/d-4771038/7-penyakit-ini-bersembunyi-di-balik-berat-badan-berlebih/ Diakses pada 18 July 2023
+ * Resiko Penyakit Obesitas: https://www.halodoc.com/kesehatan/obesitas/  Diakses pada 18 July 2023
+ */
+  </script>
+</body>
+</html>
